@@ -5,9 +5,12 @@ from website.forms import RegisterForm, LoginForm, BudgetForm
 from website import db
 from flask_login import login_user, logout_user, login_required, current_user
 
+#-----------------LANDING---------------------------#
+@app.route('/')
+def landing_page():
+    return render_template("landing.html")
 
 #-----------------HOME---------------------------#
-@app.route('/')
 @app.route('/home/')
 def home_page():
     return render_template("home.html")
@@ -47,6 +50,7 @@ def login_page():
         else:
             flash('Sorry, the username and password does not match an account. Please try again.')
     return render_template('login.html', form = form)
+
 
 #-----------------LOGOUT ------------------------#
 @app.route('/logout')

@@ -28,3 +28,4 @@ class LoginForm(FlaskForm):
 class BudgetForm(FlaskForm):
     budget = StringField(label="Budget", validators=[DataRequired()])
     submit = SubmitField(label='Submit')
+

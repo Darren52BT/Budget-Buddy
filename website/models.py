@@ -25,7 +25,6 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'User %s' % self.username
 
-
 class Budget(db.Model):
     id = db.Column(db.Integer(), primary_key = True)
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))

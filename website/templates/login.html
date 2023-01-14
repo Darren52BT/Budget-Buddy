@@ -6,21 +6,27 @@
 {% block content %}
 
 <body>
-
     <form method="POST">
-        {{form.hidden_tag()}}
-        <h1>
+        <br/>
+
+        <h1 align="center">
             Please Login
         </h1>
-        
+        <br/>
+        <div align = "center">
         {{ form.username.label() }}
         {{ form.username( placeholder = 'User Name') }}
-    
+        </div>
+        <br/>
+        <div align = "center">
         {{ form.password.label() }}
         {{ form.password(placeholder="Password")}}
+        </div>
+        <br/>
+        <div align = "center">
         {{form.submit()}}
+    </div>
 
     </form>
-    
 </body>
 {% endblock %}
