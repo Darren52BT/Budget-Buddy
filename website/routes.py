@@ -1,9 +1,9 @@
 from website import app
 from flask import render_template, redirect, url_for, flash, get_flashed_messages
-from website.models import User
-from website.forms import RegisterForm, LoginForm
+from website.models import User, Budget
+from website.forms import RegisterForm, LoginForm, BudgetForm
 from website import db
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 
 
 #-----------------HOME---------------------------#
@@ -48,8 +48,26 @@ def login_page():
             flash('Sorry, the username and password does not match an account. Please try again.')
     return render_template('login.html', form = form)
 
+#-----------------LOGOUT ------------------------#
 @app.route('/logout')
 def logout_page():
     logout_user()
     flash('You have logged out successfully. Remember to keep track of your budget!')
     return redirect(url_for('home_page'))
+
+#-----------------BUDGET FORM --------------------------#
+@app.route('/budget-form', methods=['GET', 'POST'])
+@login_required
+def budget_form_page():
+    form = BudgetForm()
+    if form.validate_on_submit():
+        new_budget = Budget(owner=current_user.id, budget = form.budget.data, budgetLeft = form.budget.data)
+        db.session.add(new_budget)
+        db.session.commit()
+        flash(f'You have successfully created a budget of {new_budget.budget}')
+        return redirect(url_for('home_page'))
+
+    if form.errors != {}: # if validation wasn't successful, present errors
+        for  msg in form.errors.values():
+            flash(f'There was an error with budget registration: {msg}')
+    return render_template('budget_form.html', form = form)
