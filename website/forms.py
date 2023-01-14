@@ -29,3 +29,7 @@ class BudgetForm(FlaskForm):
     budget = StringField(label="Budget", validators=[DataRequired()])
     submit = SubmitField(label='Submit')
 
+class WeekForm(FlaskForm):
+    submit = SubmitField(label='Select')
+class ExpenseListForm(FlaskForm):
+    submit = SubmitField(label="Select")
