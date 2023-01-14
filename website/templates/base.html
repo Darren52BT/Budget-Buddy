@@ -18,12 +18,19 @@
                 <li>
                     <a href="{{url_for('home_page')}}">Home</a>
                 </li>
+                {% if current_user.is_authenticated %}
+                <li>
+                    <a href="{{url_for('logout_page')}}">Log Out</a>
+                </li>
+                {% else %}
                 <li>
                     <a href="{{url_for('register_page')}}">Register</a>
                 </li>
                 <li>
                     <a href="{{url_for('login_page')}}">Login</a>
                 </li>
+                {% endif %}
+                
             </ul>
         </div>
     </nav>
@@ -31,7 +38,7 @@
       {% if messages %}
         {% for category, message in messages %}
           <div class="alert alert-{{ category }}">
-              <button type="button" class="m1-2 mb-1 close" data-dismiss="alert" aria-label="Close">
+              <button type="button" onclick="removeFlash()" id="flash">
                 <span aria-hidden="true">&times;</span>
               </button>                
               {{message}}
@@ -41,5 +48,11 @@
     {% endwith %}
     {% block content %}
     {% endblock %}
+    <script>
+        function removeFlash() {
+            const ele = document.getElementById('flash').parentNode;
+            ele.remove();
+        }
+    </script>
 </body>
 </html>

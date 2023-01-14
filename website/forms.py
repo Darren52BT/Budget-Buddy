@@ -5,13 +5,13 @@ from website.models import User
 
 class RegisterForm(FlaskForm):
 
-    def check_username(self, new_username):
+    def validate_username(self, new_username):
         user= User.query.filter_by(username = new_username.data).first()
         if user:
             raise ValidationError('An account has already been registered with this username. Please choose a different username.')
-    def check_email(self, new_email):
-        email = User.query.filter_by(email_address = new_email.data).first()
-        if email:
+    def validate_email_address(self, new_email):
+        email_address = User.query.filter_by(email_address = new_email.data).first()
+        if email_address:
             raise ValidationError('An account has already been registered with this email address. Please choose a different address.')
     username = StringField(label = "User Name:", validators = [Length(min=2, max=25), DataRequired()])
     password = PasswordField(label='Password:', validators=[Length(min=6),DataRequired()])
