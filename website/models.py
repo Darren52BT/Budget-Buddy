@@ -43,3 +43,12 @@ class Budget(db.Model):
 
     def __repr__(self):
         return f'Budget %s' % self.budget
+
+class Expenses(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    weekOwner_Id = db.Column(db.Integer(), db.ForeignKey('week.id'))
+    budget = db.Column(db.Integer(), nullable = False)
+    budgetLeft = db.Column(db.Integer(), nullable=False)
+
+    def __repr__(self):
+        return f'Budget %s' % self.budget
