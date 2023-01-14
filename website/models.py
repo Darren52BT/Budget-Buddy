@@ -1,6 +1,7 @@
 from website import db, login_manager, bcrypt
 from flask_login import UserMixin
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -30,6 +31,7 @@ class Week(db.Model):
     id = db.Column(db.Integer(), primary_key = True)
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
     budget = db.relationship('Budget', backref='user', uselist=False, lazy=True)
+    category = db.Column(db.String(length=100), nullable=False)
     def __repr__(self):
             return f'Week {self.id}'
 
