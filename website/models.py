@@ -23,3 +23,9 @@ class User(db.Model, UserMixin):
         return bcrypt.check_password_hash(self.encrypt_pass, pass_attempt)
     def __repr__(self):
         return f'User %s' % self.username
+
+class Budget(db.Model, UserMixin):
+    id = db.Column(db.Integer(), primary_key=True)
+    budget = db.Column(db.Integer(), nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+

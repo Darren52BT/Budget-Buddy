@@ -46,3 +46,23 @@ def login_page():
         else:
             flash('Sorry, the username and password does not match an account. Please try again.')
     return render_template('login.html', form = form)
+
+#-----------------EXPENSES---------------------------#
+@app.route('/expenses/', methods=['GET', 'POST'])
+def submit_expenses():
+    form = RegisterForm()
+    #registration validation, if successful, return to home page after
+    if form.validate_on_submit():
+        new_user = User(username=form.username.data, encrypt_pass = form.password.data, email_adress=form.email_address.data)
+        db.session.add(new_user)
+        db.session.commit()
+        flash(f"You have successfully registered as {new_user.username}! Good Luck on budgeting successfully")
+        #return home
+        return redirect(url_for('home_page'))
+
+    if form.errors != {}: # if validation wasn't successful, present errors
+        for msg in form.errors.values():
+            flash(f'There was an error with registration: {msg}')
+    
+    #direct user to register page
+    return render_template('register.html', form=form)
