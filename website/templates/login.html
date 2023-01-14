@@ -1,32 +1,46 @@
 {% extends 'base.html' %}
 {% block title %}
-    Login
+Login
 {% endblock %}
 
 {% block content %}
 
-<body>
-    <form method="POST">
-        <br/>
+<body class="text-center">
+    <div class="form-container">
+        <form method="POST">
+            {{ form.hidden_tag()}}
+            <br>
+            <h1>
+                Please Login
+            </h1>
+            {{ form.username.label() }}
+            {{ form.username( placeholder = 'User Name') }}
+            <br />
+            {{ form.password.label() }}
+            {{ form.password(placeholder="Password")}}
+            <br />
+            {{form.submit()}}
+        </form>
 
-        <h1 align="center">
-            Please Login
-        </h1>
-        <br/>
-        <div align = "center">
-        {{ form.username.label() }}
-        {{ form.username( placeholder = 'User Name') }}
-        </div>
-        <br/>
-        <div align = "center">
-        {{ form.password.label() }}
-        {{ form.password(placeholder="Password")}}
-        </div>
-        <br/>
-        <div align = "center">
-        {{form.submit()}}
     </div>
 
-    </form>
+    <style>
+        input {
+            display: inline-block;
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        input[type="submit"] {
+            width: 20%;
+            margin: 5px auto;
+        }
+
+        .form-container {
+            width: 50%;
+            margin-left: 25%;
+        }
+
+    </style>
 </body>
 {% endblock %}

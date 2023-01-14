@@ -1,35 +1,53 @@
 {% extends 'base.html' %}
 {% block title %}
-    Register
+Register
 {% endblock %}
 
 {% block content %}
 
-<body>
-    <div width = "50%" align = "center">
+<body class="text-center">
+    <div class="form-container">
         <form method="POST">
-            <br/>
-            <h1 align = "center">Please Register Below</h1>
+            {{ form.hidden_tag()}}
+            <br />
+            <h1>Please Register Below</h1>
 
-            <br/>
-            <div align = "center">
+            <br />
             {{ form.username.label() }}
             {{form.username(placeholder="User Name")}}
-            <br/>
+            <br />
             {{ form.email_address.label() }}
-            {{ form.email_address(class="form-control", placeholder="Email Address") }}
-            <br/>
+            {{ form.email_address(placeholder="Email Address") }}
+            <br />
             {{ form.password.label() }}
-            {{ form.password(class="form-control", placeholder="Password") }}
-            <br/>
+            {{ form.password( placeholder="Password") }}
+            <br />
             {{ form.password_confirm.label() }}
             {{ form.password_confirm(placeholder="Confirm Password") }}
-            <br/>
+            <br />
 
             {{ form.submit()}}
-        </div>
-        
-        </form>
     </div>
+
+    </form>
+    </div>
+    <style>
+        input {
+            display: inline-block;
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        input[type="submit"] {
+            width: 20%;
+            margin: 5px auto;
+        }
+
+        .form-container {
+            width: 50%;
+            margin-left: 25%;
+        }
+
+    </style>
 </body>
 {% endblock %}

@@ -1,19 +1,41 @@
 {% extends 'base.html' %}
 {% block title %}
-    Budget Form
+Budget Form
 {% endblock %}
 
 {% block content %}
 
-<body>
-<form method="POST">
-    {{form.hidden_tag()}}
-    <h1>Enter Your Budget for the Week Please</h1>
-    
-    {{ form.budget.label}}
-    {{ form.budget}}
+<body class="text-center">
+    <div class="form-container">
+        <form method="POST">
+            {{form.hidden_tag()}}
+            <h1>Enter Your Budget for the Week Please</h1>
 
-    {{ form.submit}}
-</form>
+            {{ form.budget.label}}
+            {{ form.budget}}
+
+            {{ form.submit}}
+        </form>
+
+    </div>
+
+    <style>
+        input {
+            display: inline-block;
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        input[type="submit"] {
+            width: 20%;
+            margin: 5px auto;
+        }
+
+        .form-container {
+            width: 50%;
+            margin-left: 25%;
+        }
+
+    </style>
 </body>
 {% endblock %}
