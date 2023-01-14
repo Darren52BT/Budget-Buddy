@@ -1,7 +1,7 @@
 from website import app
-from flask import render_template, redirect, url_for, flash, get_flashed_messages
-from website.models import User, Budget, Week
-from website.forms import RegisterForm, LoginForm, BudgetForm
+from flask import render_template, redirect, url_for, flash, get_flashed_messages, request
+from website.models import User, Budget, Week, Expense
+from website.forms import RegisterForm, LoginForm, BudgetForm, WeekForm
 from website import db
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -10,20 +10,19 @@ from flask_login import login_user, logout_user, login_required, current_user
 def landing_page():
     return render_template("landing.html")
 
-#-----------------WEEKS---------------------------#
-@app.route('/weeks')
-def weeks():
-    return render_template("weeks.html")
-
-#-----------------CURRENT WEEK---------------------------#
-@app.route('/current-week')
-def current_week():
-    return render_template("currentWeek.html")
-
 #-----------------HOME---------------------------#
-@app.route('/home/')
+@app.route('/home/', methods=['GET', 'POST'])
+@login_required
 def home_page():
-    return render_template("home.html")
+    form = WeekForm()
+    if request.method == "POST" and form.validate_on_submit:
+        week = Week.query.filter_by(id = request.form.get('current_week')).first()
+        expenses = Expense.query.filter_by(budgetOwner_Id = week.budget.id).all()
+        flash(f"You have successfully chosen week {week}")
+        return render_template('expense_list.html', current_week = week, current_expenses = expenses)
+    else:
+        flash(f'There was a problem with selecting a week')
+    return render_template("home.html", weeks = current_user.weeks, form = form)
 
 
 #-----------------REGISTER---------------------------#
@@ -37,7 +36,7 @@ def register_page():
         db.session.commit()
         flash(f"You have successfully registered as {new_user.username}! Good Luck on budgeting successfully")
         #return home
-        return redirect(url_for('home_page'))
+        return redirect(url_for('login_page'))
 
     if form.errors != {}: # if validation wasn't successful, present errors
         for  msg in form.errors.values():
@@ -77,6 +76,7 @@ def budget_form_page():
     if form.validate_on_submit():       
         new_week = Week(owner=current_user.id)
         new_week.budget = Budget(weekOwner_Id=new_week.id, budget = form.budget.data, budgetLeft = form.budget.data)      
+<<<<<<< HEAD
         db.session.add(new_week)
         db.session.commit()
         flash(f'You have successfully created a week {new_week.id} with a budget of{new_week.budget.budget}')
@@ -95,6 +95,8 @@ def expenses_form_page():
     if form.validate_on_submit():       
         new_week = Week(owner=current_user.id)
         new_week.budget = Budget(weekOwner_Id=new_week.id, budget = form.budget.data, budgetLeft = form.budget.data)      
+=======
+>>>>>>> 4737a2d2aaa2bb81b9d8f46091b538b856132f50
         db.session.add(new_week)
         db.session.commit()
         flash(f'You have successfully created a week {new_week.id} with a budget of{new_week.budget.budget}')
@@ -104,3 +106,9 @@ def expenses_form_page():
         for  msg in form.errors.values():
             flash(f'There was an error with budget registration: {msg}')
     return render_template('budget_form.html', form = form)
+#--------------------------------EXPENSE LIST --------------#
+
+@app.route('/week-expenses', methods=['GET', 'POST'])
+@login_required
+def expense_list_page():
+    return render_template('expense_list.html')

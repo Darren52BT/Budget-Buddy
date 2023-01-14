@@ -1,7 +1,6 @@
 from website import db, login_manager, bcrypt
 from flask_login import UserMixin
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -28,10 +27,9 @@ class User(db.Model, UserMixin):
 
 
 class Week(db.Model):
-    id = db.Column(db.Integer(), primary_key = True)
-    owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    id = db.Column(db.Integer(), primary_key = True, autoincrement=True)
+    owner = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
     budget = db.relationship('Budget', backref='user', uselist=False, lazy=True)
-    category = db.Column(db.String(length=100), nullable=False)
     def __repr__(self):
             return f'Week {self.id}'
 
@@ -40,15 +38,18 @@ class Budget(db.Model):
     weekOwner_Id = db.Column(db.Integer(), db.ForeignKey('week.id'))
     budget = db.Column(db.Integer(), nullable = False)
     budgetLeft = db.Column(db.Integer(), nullable=False)
+    expenses = db.relationship('Expense', backref='user', uselist=False, lazy=True)
 
     def __repr__(self):
         return f'Budget %s' % self.budget
 
-class Expenses(db.Model):
-    id = db.Column(db.Integer(), primary_key = True)
-    weekOwner_Id = db.Column(db.Integer(), db.ForeignKey('week.id'))
-    budget = db.Column(db.Integer(), nullable = False)
-    budgetLeft = db.Column(db.Integer(), nullable=False)
 
+class Expense(db.Model):
+    id = db.Column(db.Integer(), primary_key =True)
+    label = db.Column(db.String(length = 30), nullable = False)
+    cost = db.Column(db.Integer(), nullable = False)
+    budgetOwner_Id = db.Column(db.Integer(), db.ForeignKey('budget.id'))
+    
     def __repr__(self):
-        return f'Budget %s' % self.budget
+        return f'Expense %s' % self.label
+    

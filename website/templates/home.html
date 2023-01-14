@@ -1,11 +1,29 @@
 {% extends 'base.html' %}
 {% block title %}
- Home
+    Home
 {% endblock %}
 
 {% block content %}
-<body>
-<h1>Home {{ weekNumber }}</h1>
 
+<body>
+    <br/>
+    <h1>Home</h1>
+    <br>
+    <h2>List of Weeks</h2>
+    {% if weeks|length < 1 %}
+        <h3>There are no weekly budgets. Go create one.</h3>
+    {% else %}
+        {% for week in weeks %}
+        <br>
+        <form method = "POST">
+          <br>
+          Week {{week.id}}
+          <input id="current_week" name="current_week" type="hidden" value="{{week.id}}">
+          {{form.submit()}}
+      </form>
+        {% endfor %}
+        <br>
+        {% endif%}
 </body>
+
 {% endblock %}
