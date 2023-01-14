@@ -23,32 +23,32 @@
     </title>
 </head>
 <body>
-    <nav class="navbar">
-        <a class="brand" href="#">Budget Marget</a>
-        <div>
-            <ul>
-                <li>
-                    <a href="{{url_for('home_page')}}">Home</a>
-                </li>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button 
+        class="navbar-toggler" 
+        type="button"
+         data-toggle="collapse" 
+         data-target="#navbar">
+            <span class ="navbar-toggler-icon"></span>
+
+        </button>
+        <div class="collapse navbar-collapse" id = "navbar">
+            <div class="navbar-nav">
                 {% if current_user.is_authenticated %}
-                <li>
-                    <a href="{{url_for('logout_page')}}">Log Out</a>
-                </li>
-                <li>
-                    <a href="{{url_for('budget_form_page')}}">Budget Form</a>
-                </li>
+                <a class="nav-item nav-link" id="homepage" href="{{url_for('home_page')}}">Home</a>
+                <a class="nav-item nav-link" id="budget" href="{{url_for('budget_form_page')}}">Budget Form</a>
+                <a class="nav-item nav-link" id="logout" href="{{url_for('logout_page')}}">Log Out</a>
                 {% else %}
-                <li>
-                    <a href="{{url_for('register_page')}}">Register</a>
-                </li>
-                <li>
-                    <a href="{{url_for('login_page')}}">Login</a>
-                </li>
+                <a class="nav-item nav-link" id="landing" href="{{url_for('landing_page')}}">Budget App</a>
+                <a class="nav-item nav-link" id="register" href="{{url_for('register_page')}}">Register</a>
+                <a class="nav-item nav-link" id="login" href="{{url_for('login_page')}}">Login</a>
                 {% endif %}
-                
-            </ul>
+    
+            </div>
         </div>
     </nav>
+
+    
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}

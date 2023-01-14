@@ -6,24 +6,29 @@
 {% block content %}
 
 <body>
-    <div>
+    <div width = "50%" align = "center">
         <form method="POST">
+            <br/>
+            <h1 align = "center">Please Register Below</h1>
 
-            <h1>Please Register Below</h1>
-            {{form.hidden_tag()}}
+            <br/>
+            <div align = "center">
             {{ form.username.label() }}
             {{form.username(placeholder="User Name")}}
-
+            <br/>
             {{ form.email_address.label() }}
             {{ form.email_address(class="form-control", placeholder="Email Address") }}
-
+            <br/>
             {{ form.password.label() }}
             {{ form.password(class="form-control", placeholder="Password") }}
-
+            <br/>
             {{ form.password_confirm.label() }}
-            {{ form.password_confirm(class="form-control", placeholder="Confirm Password") }}
+            {{ form.password_confirm(placeholder="Confirm Password") }}
+            <br/>
 
             {{ form.submit()}}
+        </div>
+        
         </form>
     </div>
 </body>
