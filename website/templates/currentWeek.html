@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}
+  Current Week
+{% endblock %}
+
+{% block content %}
+
+<style>
+    h3{
+        padding-left: 40px;
+    }
+    h5{
+        padding-left: 40px;
+    }
+</style>
+<body>
+    <br/>
+    <h1 align = "center">Current Week</h1>
+    <div>
+        <h3 >Weekly Budget: { budget }</h3>
+        <h5 >Current Spending: { spending }</h5>
+        <h5 >Budget Left: { budgetLeft }</h5>
+        <h5 >Date: { budgetLef }</h5>
+    </div>
+    <br/>
+    <h5> Add Expenses</h5>
+    <form method="POST">
+        <div align = "center">
+            <label for="Groceries">Groceries</label>
+            <input
+              type="groceries"
+              id="groceries"
+              name="groceries"
+              placeholder="Enter dollars spent on groceries"
+            />
+          </div>
+    
+          <div align = "center">
+            <label for="Supplies">Supplies</label>
+            <input
+              type="supplies"
+              id="supplies"
+              name="supplies"
+              placeholder="Enter dollars spent on supplies"
+            />
+          </div>
+          <div align = "center">
+            <label for="Other">Other</label>
+            <input
+              type="other"
+              id="other"
+              name="other"
+              placeholder="Enter dollars spent on other"
+            />
+          </div>
+          <div align = "center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+    </form>
+
+</body>
+{% endblock %}

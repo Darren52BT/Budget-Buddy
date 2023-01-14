@@ -10,6 +10,16 @@ from flask_login import login_user, logout_user, login_required, current_user
 def landing_page():
     return render_template("landing.html")
 
+#-----------------WEEKS---------------------------#
+@app.route('/weeks')
+def weeks():
+    return render_template("weeks.html")
+
+#-----------------CURRENT WEEK---------------------------#
+@app.route('/current-week')
+def current_week():
+    return render_template("currentWeek.html")
+
 #-----------------HOME---------------------------#
 @app.route('/home/')
 def home_page():
@@ -57,7 +67,7 @@ def login_page():
 def logout_page():
     logout_user()
     flash('You have logged out successfully. Remember to keep track of your budget!')
-    return redirect(url_for('home_page'))
+    return redirect(url_for('landing_page'))
 
 #-----------------BUDGET FORM --------------------------#
 @app.route('/budget-form', methods=['GET', 'POST'])
