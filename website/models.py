@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(length = 25), nullable = False, unique = True)
     encrypt_pass = db.Column(db.String(length=100), nullable=False)
     email_address = db.Column(db.String(length=50), nullable = False, unique = True)
-    budget = db.relationship('Budget', backref='user', lazy=True)
+    weeks = db.relationship('Week', backref='user', lazy=True)
 
     @property
     def password(self):
@@ -26,11 +26,19 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'User %s' % self.username
 
-class Budget(db.Model):
+
+class Week(db.Model):
     id = db.Column(db.Integer(), primary_key = True)
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    budget = db.relationship('Budget', backref='user', uselist=False, lazy=True)
+    def __repr__(self):
+            return f'Week {self.id}'
+
+class Budget(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    weekOwner_Id = db.Column(db.Integer(), db.ForeignKey('week.id'))
     budget = db.Column(db.Integer(), nullable = False)
     budgetLeft = db.Column(db.Integer(), nullable=False)
 
     def __repr__(self):
-        return f'Budget {self.budget}'
+        return f'Budget %s' % self.budget
