@@ -1,6 +1,6 @@
 from website import app
 from flask import render_template, redirect, url_for, flash, get_flashed_messages
-from website.models import User, Budget
+from website.models import User, Budget, Week
 from website.forms import RegisterForm, LoginForm, BudgetForm
 from website import db
 from flask_login import login_user, logout_user, login_required, current_user
@@ -64,11 +64,13 @@ def logout_page():
 @login_required
 def budget_form_page():
     form = BudgetForm()
-    if form.validate_on_submit():
-        new_budget = Budget(owner=current_user.id, budget = form.budget.data, budgetLeft = form.budget.data)
-        db.session.add(new_budget)
+    if form.validate_on_submit():       
+        new_week = Week(owner=current_user.id)
+        new_week.budget = Budget(weekOwner_Id=new_week.id, budget = form.budget.data, budgetLeft = form.budget.data)      
+
+        db.session.add(new_week)
         db.session.commit()
-        flash(f'You have successfully created a budget of {new_budget.budget}')
+        flash(f'You have successfully created a week {new_week.id} with a budget of{new_week.budget.budget}')
         return redirect(url_for('home_page'))
 
     if form.errors != {}: # if validation wasn't successful, present errors
