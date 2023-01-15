@@ -76,7 +76,6 @@ def budget_form_page():
     if form.validate_on_submit():       
         new_week = Week(owner=current_user.id)
         new_week.budget = Budget(weekOwner_Id=new_week.id, budget = form.budget.data, budgetLeft = form.budget.data)      
-<<<<<<< HEAD
         db.session.add(new_week)
         db.session.commit()
         flash(f'You have successfully created a week {new_week.id} with a budget of{new_week.budget.budget}')
@@ -87,28 +86,4 @@ def budget_form_page():
             flash(f'There was an error with budget registration: {msg}')
     return render_template('budget_form.html', form = form)
 
-#-----------------EXPENSES FORM --------------------------#
-@app.route('/expenses-form', methods=['GET', 'POST'])
-@login_required
-def expenses_form_page():
-    form = BudgetForm()
-    if form.validate_on_submit():       
-        new_week = Week(owner=current_user.id)
-        new_week.budget = Budget(weekOwner_Id=new_week.id, budget = form.budget.data, budgetLeft = form.budget.data)      
-=======
->>>>>>> 4737a2d2aaa2bb81b9d8f46091b538b856132f50
-        db.session.add(new_week)
-        db.session.commit()
-        flash(f'You have successfully created a week {new_week.id} with a budget of{new_week.budget.budget}')
-        return redirect(url_for('home_page'))
 
-    if form.errors != {}: # if validation wasn't successful, present errors
-        for  msg in form.errors.values():
-            flash(f'There was an error with budget registration: {msg}')
-    return render_template('budget_form.html', form = form)
-#--------------------------------EXPENSE LIST --------------#
-
-@app.route('/week-expenses', methods=['GET', 'POST'])
-@login_required
-def expense_list_page():
-    return render_template('expense_list.html')
