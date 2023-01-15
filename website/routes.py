@@ -95,15 +95,18 @@ def expense_list_page():
     if request.method == "POST":
         return render_template('expense_list.html')
 
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
-def update(id):
-    expense = Expense.query.filter_by(id = id).first()
+@app.route('/update/<int:week_id>/<int:expense_id>', methods=['GET', 'POST'])
+def update(week_id, expense_id):
+    expense = Expense.query.filter_by(id = expense_id).first()
+  
+    week = Week.query.filter_by(id = week_id).first()  
     form = ExpenseListForm()
-    if request.method =="POST":
+    expenses = Expense.query.filter_by(budgetOwner_Id = week.budget.id).all()
+    if request.method =="POST" and form.validate_on_submit:
         expense.cost = int(form.cost.data)
         expense.label = form.label.data
         flash(f'You have successfully updated an expense to {expense.label}: ${expense.cost}', category='success')
-        return render_template("expense_list.html",form = form, current_week = Week.query.filter_by(budget = Budget.query.filter_by(id = expense.budgetOwner_Id).first()).first())
+        return render_template("expense_list.html",form = form, current_week =week, current_expenses = expenses)
     else:
         flash("You have failed to update a task", category='danger')
-    return render_template("expense_list.html",form = form, current_week = Week.query.filter_by(budget = Budget.query.filter_by(id = expense.budgetOwner_Id).first()).first())
+    return render_template("expense_list.html",form = form, current_week = week, current_expenses = expenses)

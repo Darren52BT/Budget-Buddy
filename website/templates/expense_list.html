@@ -14,7 +14,7 @@ Expense List
             {% else %}
             {% for expense in current_expenses%}
             <br>
-            <a class="expense" href="/update/{{expense.id}}">{{expense.label}} {{expense.cost }}</a>                
+            <a class="expense" href="/update/{{current_week.id}}/{{expense.id}}">{{expense.label}} {{expense.cost }}</a>                
             <a class="delete" href="/delete/{{expense.id}}" aria-hidden="true">&times;</a>
             <br>
             {% endfor %}
