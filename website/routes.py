@@ -109,8 +109,13 @@ def expense_list_page():
 
 @app.route('/add-week-expenses', methods=['GET', 'POST'])
 @login_required
-def add_week_expenses():
-    if request.method == "POST" and form.validate_on_submit:
+def add_week_expenses(week_id, expense_id):
+    week = Week.query.filter_by(id = week_id).first()  
+    expense = Expense.query.filter_by(id = expense_id).first()
+    expenses = Expense.query.filter_by(budgetOwner_Id = week.budget.id).all()
+    expenseTotal = calcExpenseTotal(expenses=expenses)
+    balance = calculateBalance(expenses, week.budget)
+    if request.method == "POST" and form.validate_on_submit:    
         form = ExpenseListForm()
         label = form.label.data
         cost = form.cost.data
@@ -118,7 +123,7 @@ def add_week_expenses():
         db.session.add(new_expense)
         db.session.commit()
         flash('Expenses added!', category='success')
-        return render_template('expense_list.html')
+        return render_template('expense_list.html', form = form, current_week =week, current_expenses = expenses, expenseTotal = expenseTotal, currentBalance = balance)
     else:
         flash(f'There was a problem with adding an expense', category="danger")
     return render_template("home.html")
