@@ -10,8 +10,6 @@ Expense List
     <div class="text-center column">
         <h1>List of Expenses</h1>
         <h2>Budget: ${{current_week.budget.budget}}</h2>
-        <h4>Current Spending: </h2>
-        <h4>Budget Remaining: </h2>
             <br/>
         {% if current_expenses|length < 1 %} <h2>There are no expenses</h2>
             {% else %}
@@ -19,7 +17,7 @@ Expense List
             <br>
             <a class="expense" href="/update/{{current_week.id}}/{{expense.id}}">{{expense.label}}: ${{expense.cost
                 }}</a>
-            <a class="delete" href="/delete/{{expense.id}}" aria-hidden="true">&times;</a>
+            <a class="delete" href="/delete/{{current_week.id}}/{{expense.id}}" aria-hidden="true">&times;</a>
             <br>
             {% endfor %}
 
@@ -36,6 +34,11 @@ Expense List
             {{form.cost}}
             {{form.submit}}
         </form>
+    </div>
+    <div>
+        <a href="/add-week-expenses/{{current_week.id}}">
+        <img src="https://w7.pngwing.com/pngs/68/239/png-transparent-number-computer-icons-plus-miscellaneous-game-plus.png" width="20px">
+        </a>
     </div>
     <br>
     <div class="total text-center">

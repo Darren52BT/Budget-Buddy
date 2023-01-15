@@ -36,19 +36,18 @@
             <div class="navbar-nav">
                 {% if current_user.is_authenticated %}
                 <a class="nav-item nav-link" id="homepage" href="{{url_for('home_page')}}">Home</a>
-                <a class="nav-item nav-link" id="budget" href="{{url_for('budget_form_page')}}">Budget Form</a>
-                <a class="nav-item nav-link" id="currentWeek" href="#">Current Week</a>
+                <a class="nav-item nav-link" id="budget" href="{{url_for('budget_form_page')}}">Budget Week Form</a>
                 <a class="nav-item nav-link" id="logout" href="{{url_for('logout_page')}}">Log Out</a>
                 {% else %}
                 <a class="nav-item nav-link" id="landing" href="{{url_for('landing_page')}}">Budget App</a>
                 <a class="nav-item nav-link" id="register" href="{{url_for('register_page')}}">Register</a>
                 <a class="nav-item nav-link" id="login" href="{{url_for('login_page')}}">Login</a>
                 {% endif %}
-    
+                <a class="nav-item nav-link" id="help" href="/help/"><img src ="{{url_for('static', filename='question.png')}}" width="20px"></a>
+
             </div>
         </div>
     </nav>
-
     
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}

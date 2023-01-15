@@ -16,15 +16,17 @@ def landing_page():
 def home_page():
     form = WeekForm()
     if request.method == "POST" and form.validate_on_submit:
-        expenseForm = ExpenseListForm()
-        week = Week.query.filter_by(id = request.form.get('current_week')).first()
-        expenses = Expense.query.filter_by(budgetOwner_Id = week.budget.id).all()
-        expenseTotal = calcExpenseTotal(expenses=expenses)
-        balance = calculateBalance(expenses, week.budget)
-        flash(f"You have successfully chosen {week}", category='success')
-        return render_template('expense_list.html', current_week = week, current_expenses = expenses, form = expenseForm, expenseTotal = expenseTotal, currentBalance = balance)
-    else:
-        flash(f'There was a problem with selecting a week', category="danger")
+        try: 
+            expenseForm = ExpenseListForm()
+            week = Week.query.filter_by(id = request.form.get('current_week')).first()
+            expenses = Expense.query.filter_by(budgetOwner_Id = week.budget.id).all()
+            expenseTotal = calcExpenseTotal(expenses=expenses)
+            balance = calculateBalance(expenses, week.budget)
+            flash(f"You have successfully chosen {week}", category='success')
+            return render_template('expense_list.html', current_week = week, current_expenses = expenses, form = expenseForm, expenseTotal = expenseTotal, currentBalance = balance)
+        except:
+            flash(f"You need to click the plus button before trying to add an expense", category="danger")
+            return render_template("home.html", weeks = current_user.weeks, form = form)
     return render_template("home.html", weeks = current_user.weeks, form = form)
 
 
@@ -107,31 +109,30 @@ def expense_list_page():
 
 
 
-@app.route('/add-week-expenses', methods=['GET', 'POST'])
+@app.route('/add-week-expenses/<int:week_id>/', methods=['GET', 'POST'])
 @login_required
-def add_week_expenses(week_id, expense_id):
+def add_week_expenses(week_id):
+    form = ExpenseListForm()
     week = Week.query.filter_by(id = week_id).first()  
-    expense = Expense.query.filter_by(id = expense_id).first()
     expenses = Expense.query.filter_by(budgetOwner_Id = week.budget.id).all()
     expenseTotal = calcExpenseTotal(expenses=expenses)
     balance = calculateBalance(expenses, week.budget)
     if request.method == "POST" and form.validate_on_submit:    
-        form = ExpenseListForm()
         label = form.label.data
         cost = form.cost.data
-        new_expense = Expense(label = label, cost = cost, budgetOwner_Id =current_user.id)
+        new_expense = Expense(label = label, cost = cost, budgetOwner_Id =week.budget.id)
         db.session.add(new_expense)
         db.session.commit()
+        expenses = Expense.query.filter_by(budgetOwner_Id = week.budget.id).all()
+        expenseTotal = calcExpenseTotal(expenses=expenses)
+        balance = calculateBalance(expenses, week.budget)
         flash('Expenses added!', category='success')
         return render_template('expense_list.html', form = form, current_week =week, current_expenses = expenses, expenseTotal = expenseTotal, currentBalance = balance)
-    else:
-        flash(f'There was a problem with adding an expense', category="danger")
-    return render_template("home.html")
+    return render_template('expense_list.html', form = form, current_week =week, current_expenses = expenses, expenseTotal = expenseTotal, currentBalance = balance)
 
 @app.route('/update/<int:week_id>/<int:expense_id>', methods=['GET', 'POST'])
 def update(week_id, expense_id):
     expense = Expense.query.filter_by(id = expense_id).first()
-    
     week = Week.query.filter_by(id = week_id).first()  
     form = ExpenseListForm()
     expenses = Expense.query.filter_by(budgetOwner_Id = week.budget.id).all()
@@ -146,16 +147,29 @@ def update(week_id, expense_id):
         balance = calculateBalance(expenses, week.budget)
         flash(f'You have successfully updated an expense to {expense.label}: ${expense.cost}', category='success')
         return render_template("expense_list.html",form = form, current_week =week, current_expenses = expenses,expenseTotal = expenseTotal, currentBalance = balance)
-    else:
-        flash("You have failed to update a task", category='danger')
     return render_template("expense_list.html",form = form, current_week = week, current_expenses = expenses, expenseTotal  = expenseTotal, currentBalance = balance)
 
+@app.route('/delete/<int:week_id>/<int:expense_id>', methods=['GET', 'POST'])
+def delete(week_id, expense_id):
+    expense = Expense.query.filter_by(id = expense_id).first()
+    week = Week.query.filter_by(id = week_id).first()  
+    form = ExpenseListForm()
+    expenses = Expense.query.filter_by(budgetOwner_Id = week.budget.id).all()
+    expenseTotal = calcExpenseTotal(expenses=expenses)
+    balance = calculateBalance(expenses, week.budget)
+    try:
+        db.session.delete(expense)
+        db.session.commit()
+        expenses = Expense.query.filter_by(budgetOwner_Id = week.budget.id).all()
+        expenseTotal = calcExpenseTotal(expenses=expenses)
+        balance = calculateBalance(expenses, week.budget)
+        return render_template("expense_list.html",form = form, current_week = week, current_expenses = expenses, expenseTotal  = expenseTotal, currentBalance = balance)
+    except:
+        return render_template("expense_list.html",form = form, current_week = week, current_expenses = expenses, expenseTotal  = expenseTotal, currentBalance = balance)
 
-
-
-
-
-
+@app.route('/help/')
+def help():
+    return render_template('help.html')
 
 
 
