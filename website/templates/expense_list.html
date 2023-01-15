@@ -14,7 +14,8 @@ Expense List
             {% else %}
             {% for expense in current_expenses%}
             <br>
-            <a class="expense" href="/update/{{current_week.id}}/{{expense.id}}">{{expense.label}} {{expense.cost }}</a>                
+            <a class="expense" href="/update/{{current_week.id}}/{{expense.id}}">{{expense.label}}: ${{expense.cost
+                }}</a>
             <a class="delete" href="/delete/{{expense.id}}" aria-hidden="true">&times;</a>
             <br>
             {% endfor %}
@@ -33,7 +34,21 @@ Expense List
             {{form.submit}}
         </form>
     </div>
+    <br>
+    <div class="total text-center">
+        <h2 class="red">Expense Total </h2>
+        <span class="red">${{expenseTotal}}</span>
+        {% if currentBalance >= 0%}
+        <h2 class="green">Balance</h2>
+        <span class="green">${{currentBalance}}</span>
+        {% else %}
+        <h2 class="red">Balance</h2>
+        <span class="red">${{currentBalance}}</span>
+        {% endif %}
+    </div>
     <style>
+       
+
         .clearfix::after,
         .clearfix::before {
             display: table;
@@ -49,37 +64,61 @@ Expense List
         * {
             box-sizing: border-box;
         }
-        .column{
+
+        .column {
             width: 48%;
             margin: 0 0%;
             float: left;
         }
-        form input:not([type="submit"]){
+
+        form input:not([type="submit"]) {
             width: 80%;
             margin: 0 10%;
         }
-        form input[type="submit"]{
+
+        form input[type="submit"] {
             margin-top: 10px;
         }
-        .expense{
+
+        .expense {
             text-decoration: none;
             color: black;
         }
-        .expense:hover{
+
+        .expense:hover {
             color: rgb(56, 55, 55);
             text-decoration: none;
         }
-        .delete, .delete:hover{
+
+        .delete,
+        .delete:hover {
             display: inline-block;
             color: red;
             text-decoration: none;
             width: 20px;
         }
-        .delete:hover{
+
+        .delete:hover {
             border: 1px solid red;
             background-color: rgb(232, 148, 148);
         }
-       
+
+        .total {
+            clear: both;
+            width: 100%;
+            padding-top: 30px;
+        }
+
+        .total h2 {
+            text-decoration: underline;
+        }
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: green;
+        }
 
     </style>
 </body>
