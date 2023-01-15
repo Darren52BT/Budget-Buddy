@@ -53,8 +53,8 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
-          <div class="alert alert-{{ category }}">
-              <button type="button" onclick="removeFlash()" id="flash">
+          <div class="text-center alert alert-{{ category }}">
+              <button type="button" class="alert-{{category}}" onclick="removeFlash()" id="flash">
                 <span aria-hidden="true">&times;</span>
               </button>                
               {{message}}
@@ -70,5 +70,30 @@
             ele.remove();
         }
     </script>
+    <style>
+      body{
+        /* background: linear-gradient(to left, rgb(140, 187, 215), rgb(146, 199, 228), rgb(140, 187, 215)); */
+      }
+      input[type="submit"]{
+            width: 80px;
+            background: #343A40;
+            color: rgba(255,255,255,.5);
+            border-radius: 10%;
+            margin: auto;
+        }
+        input:not([type="submit"]){
+          background:rgb(219, 232, 241);
+          text-indent: 5px;
+        }
+        input:not([type="submit"])::placeholder{
+          font-style: italic;
+        }
+        input[type="submit"]:hover{
+            background: #545c64;
+        }
+        div.text-center.alert {
+          margin: 0;
+        }
+    </style>
 </body>
 </html>

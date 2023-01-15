@@ -1,16 +1,75 @@
 {% extends 'base.html' %}
 {% block title %}
-    Login
+Login
 {% endblock %}
 
 {% block content %}
 
-<body>
+<body class="text-center">
 
-    <br/>
-    <h1 align = "center">
-        Budget App
-    </h1>
-    
+    <br />
+    <div class="landing text-center">
+        <h1>
+            Budget App
+        </h1>
+        <p>Welcome to our Budgeting App! It is in your best interests for you to start taking control of your money, instead
+            of the other way around. Interested? Register Today!</p>
+        <img src="https://cdn-icons-png.flaticon.com/512/2719/2719649.png" alt="">
+        <ul>
+            <li>
+                <a class="nav-item nav-link" id="register" href="{{url_for('register_page')}}">Register</a>
+
+            </li><!---
+            --><li>
+                <a class="nav-item nav-link" id="login" href="{{url_for('login_page')}}">Login</a>
+            </li>
+        </ul>
+    </div>
+    <style>
+        landing *{
+            box-sizing: border-box;
+        }
+        .landing{
+            width: 80%;
+            margin: auto;
+        }
+        .landing ul{
+            width: 50%;
+            min-width: 220px;
+            margin: auto;
+            margin-top: 30px;
+            padding: 0;
+        }
+        .landing ul li{
+            list-style-type: none;
+            width: 50%;
+            display: inline-block;
+            }
+        .landing a{
+            width: 100px;
+            background: #343A40;
+            color: rgba(255,255,255,.5);
+            border-radius: 10%;
+            margin: auto;
+        }
+        .landing a:hover{
+            background: #545c64;
+        }
+        .landing p{
+            width: 60%;
+            margin: 30px auto;
+        }
+        .landing img{
+            width:25%;
+            margin: auto;
+            min-width: 200px;
+            transition: all 1s ease-in-out 0s;
+        }
+        .landing img:hover{
+            width: 30%;
+        }
+        
+        
+    </style>
 </body>
 {% endblock %}
