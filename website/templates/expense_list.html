@@ -10,6 +10,9 @@ Expense List
     <div class="text-center column">
         <h1>List of Expenses</h1>
         <h2>Budget: ${{current_week.budget.budget}}</h2>
+        <h4>Current Spending: </h2>
+        <h4>Budget Remaining: </h2>
+            <br/>
         {% if current_expenses|length < 1 %} <h2>There are no expenses</h2>
             {% else %}
             {% for expense in current_expenses%}
