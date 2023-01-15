@@ -1,5 +1,7 @@
 from website import db, login_manager, bcrypt
 from flask_login import UserMixin
+from sqlalchemy.sql import func
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -43,12 +45,13 @@ class Budget(db.Model):
     def __repr__(self):
         return f'Budget %s' % self.budget
 
+
 class Expense(db.Model):
     id = db.Column(db.Integer(), primary_key =True)
     label = db.Column(db.String(length = 30), nullable = False)
     cost = db.Column(db.Integer(), nullable = False)
     budgetOwner_Id = db.Column(db.Integer(), db.ForeignKey('budget.id'))
-    
+    #date = db.Column(db.DateTime(timezone=True), default=func.now())
     def __repr__(self):
         return f'Expense %s' % self.label
     
