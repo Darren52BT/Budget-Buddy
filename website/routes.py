@@ -83,7 +83,7 @@ def budget_form_page():
         new_week.budget = Budget(weekOwner_Id=new_week.id, budget = form.budget.data, budgetLeft = form.budget.data)      
         db.session.add(new_week)
         db.session.commit()
-        flash(f'You have successfully created a week {new_week.id} with a budget of{new_week.budget.budget}', category="success")
+        flash(f'You have successfully created a week {new_week.id} with a budget of {new_week.budget.budget}', category="success")
         return redirect(url_for('home_page'))
 
     if form.errors != {}: # if validation wasn't successful, present errors
