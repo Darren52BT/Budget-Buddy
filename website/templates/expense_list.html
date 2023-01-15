@@ -1,19 +1,86 @@
 {% extends 'base.html' %}
 {% block title %}
-    Expense List
+Expense List
 {% endblock %}
 
 {% block content %}
-<h1>List of Expenses</h1>
-<h2>Budget: {{current_week.budget.budget}}</h2>
-{% if current_expenses|length < 1 %}
-<h2>There are no expenses</h2>
-{% else %}
-{% for expense in current_expenses%}
-<br>
-{{expense.label}} {{expense.cost }}
-<br>
-{% endfor %}
 
-{% endif %}
+<body class="clearfix">
+    <br>
+    <div class="text-center column">
+        <h1>List of Expenses</h1>
+        <h2>Budget: ${{current_week.budget.budget}}</h2>
+        {% if current_expenses|length < 1 %} <h2>There are no expenses</h2>
+            {% else %}
+            {% for expense in current_expenses%}
+            <br>
+            <a class="expense" href="/update/{{expense.id}}">{{expense.label}} {{expense.cost }}</a>                
+            <a class="delete" href="/delete/{{expense.id}}" aria-hidden="true">&times;</a>
+            <br>
+            {% endfor %}
+
+            {% endif %}
+    </div>
+    <div class="text-center column">
+        <form method="POST">
+            {{ form.hidden_tag()}}
+            <h2>Expense Form</h2>
+            {{form.label.label}}
+            {{form.label}}
+
+            {{form.cost.label}}
+            {{form.cost}}
+            {{form.submit}}
+        </form>
+    </div>
+    <style>
+        .clearfix::after,
+        .clearfix::before {
+            display: table;
+            content: "";
+        }
+
+        .clearfix::after {
+            clear: both;
+        }
+
+        body *::before,
+        body *::after,
+        * {
+            box-sizing: border-box;
+        }
+        .column{
+            width: 48%;
+            margin: 0 0%;
+            float: left;
+        }
+        form input:not([type="submit"]){
+            width: 80%;
+            margin: 0 10%;
+        }
+        form input[type="submit"]{
+            margin-top: 10px;
+        }
+        .expense{
+            text-decoration: none;
+            color: black;
+        }
+        .expense:hover{
+            color: rgb(56, 55, 55);
+            text-decoration: none;
+        }
+        .delete, .delete:hover{
+            display: inline-block;
+            color: red;
+            text-decoration: none;
+            width: 20px;
+        }
+        .delete:hover{
+            border: 1px solid red;
+            background-color: rgb(232, 148, 148);
+        }
+       
+
+    </style>
+</body>
 {% endblock %}

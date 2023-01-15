@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError, NumberRange
 from website.models import User
 
 class RegisterForm(FlaskForm):
@@ -31,5 +31,8 @@ class BudgetForm(FlaskForm):
 
 class WeekForm(FlaskForm):
     submit = SubmitField(label='Select')
+
 class ExpenseListForm(FlaskForm):
+    label = StringField(label="Expense Title", validators=[Length(min=1, max=30),DataRequired()])
+    cost = IntegerField(label="Expense Cost",validators = [NumberRange(min=0), DataRequired()] )
     submit = SubmitField(label="Select")
