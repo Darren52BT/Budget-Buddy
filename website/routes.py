@@ -27,7 +27,40 @@ def home_page():
         except:
             flash(f"You need to click the plus button before trying to add an expense", category="danger")
             return render_template("home.html", weeks = current_user.weeks, form = form)
-    return render_template("home.html", weeks = current_user.weeks, form = form)
+
+    weeksCurrentUser = Week.query.filter_by(owner = current_user.id).all()
+    weekArray = []
+    for i in weeksCurrentUser:
+        expenses_query = Expense.query.filter_by(budgetOwner_Id = i.budget.id).all()
+        if not expenses_query:
+            weekArray.append(True)
+        else:
+            if calculateBalance(expenses_query, i.budget) <0:
+                weekArray.append(False)
+
+            else:
+                weekArray.append(True)
+
+    current_streak = 0
+    if len(weekArray) > 0 and weekArray[0] == True:
+        for i in reversed(weekArray):
+            if i == False:
+                break
+            else:
+                current_streak +=1
+
+    max_streak= 0
+    tempStreak = 0
+
+    for i in reversed(weekArray):
+        if i == True: 
+            tempStreak +=1
+        else:
+            tempStreak = 0
+        if tempStreak > max_streak:
+            max_streak = tempStreak
+
+    return render_template("home.html", weeks = current_user.weeks, form = form,  max_streak = max_streak, current_streak = current_streak)
 
 
 #-----------------REGISTER---------------------------#

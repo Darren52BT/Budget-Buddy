@@ -7,27 +7,33 @@ Home
 
 <body>
   <div class="text-center">
-  <br />
-  <h1>Home</h1>
-  <br>
-  <h2>List of Weeks</h2>
-  {% if weeks|length < 1 %} <h3>There are no weekly budgets. Go create one.</h3>
-    {% else %}
-    {% for week in weeks %}
+    <br />
+    <h1>Home</h1>
     <br>
-    <form method="POST">
-      {{ form.hidden_tag()}}
+    <h2>List of Weeks</h2>
+    {% if weeks|length < 1 %} <h3>There are no weekly budgets. Go create one.</h3>
+      {% else %}
+      {% for week in weeks %}
+
       <br>
-     <span> Week {{week.id}}</span>
-      <input name="current_week" type="hidden" value="{{week.id}}">
-      {{form.submit()}}
-    </form>
-    {% endfor %}
-    <br>
-    {% endif%}
+      <form method="POST">
+        {{ form.hidden_tag()}}
+        <br>
+        <span> Week {{week.id}}</span>
+        <input name="current_week" type="hidden" value="{{week.id}}">
+        {{form.submit()}}
+      </form>
+      {% endfor %}
+      <br>
+      {% endif%}
+      <p class=" max">You have currently have a streak of {{current_streak}} <img
+          src="https://i.pinimg.com/originals/ef/c5/cf/efc5cfdfabf790c58e1acf288fb5ccac.png" width=60px"> </p>
+      <p class=" current"> You had a highest streak of {{max_streak}} <img
+          src="https://i.pinimg.com/originals/ef/c5/cf/efc5cfdfabf790c58e1acf288fb5ccac.png" width="60px"> </p>
   </div>
+
   <style>
-     
+
   </style>
 </body>
 
